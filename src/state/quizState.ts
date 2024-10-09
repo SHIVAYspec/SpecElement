@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import _, { map } from 'lodash'
+import _ from 'lodash'
 import elementsArray from '../data/elementsArray.json'
 
 export interface Element {
@@ -31,6 +31,7 @@ export enum QuizConfigOption {
 }
 
 export type QuizConfig = {
+  isSet: boolean
   primaryKey: QuizConfigPrimaryKey
   periodAndGroup: QuizConfigOption
   atomicNo: QuizConfigOption
@@ -82,6 +83,7 @@ export const useQuizState = defineStore('quizState', {
       questionsAnswered: new Map<string, Element>(),
       questionsLeft: new Map<string, Element>(),
       config: {
+        isSet: false,
         primaryKey: QuizConfigPrimaryKey.name,
         periodAndGroup: QuizConfigOption.Off,
         atomicNo: QuizConfigOption.Off,

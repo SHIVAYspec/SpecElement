@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import PeriodicTable from '@/components/periodicTable/main.vue'
-import InputAndResult from '@/components/inputAndResult/main.vue'
+import Layout from '@/QuizLayout.vue'
+import Config from '@/Config.vue'
+// Reactive adjustment of main div dimension based on viewport dimension
 import { ref } from 'vue'
 import { onUnmounted } from 'vue'
 const height = ref<string>('')
@@ -16,6 +17,9 @@ visualViewport?.addEventListener('resize', watchViewportResize)
 onUnmounted(() => {
   visualViewport?.removeEventListener('resize', watchViewportResize)
 })
+// State
+import { useQuizState } from '@/state/quizState'
+const state = useQuizState()
 </script>
 
 <template>
@@ -26,11 +30,11 @@ onUnmounted(() => {
       width: width
     }"
   >
-    <div class="box periodicTable">
-      <PeriodicTable />
+    <div v-if="state.config.isSet">
+      <Layout />
     </div>
-    <div class="box inputAndResult">
-      <InputAndResult />
+    <div v-else>
+      <Config />
     </div>
   </div>
 </template>
@@ -45,22 +49,5 @@ onUnmounted(() => {
   align-items: center;
   overflow: hidden;
   background-color: #5dade2;
-}
-.box {
-  border: 1px solid black;
-  padding: 3px;
-  width: 1008px;
-  max-width: 100%;
-  overflow: auto;
-}
-.periodicTable {
-  height: 560px;
-  max-height: 100%;
-  background-color: #a9cce3;
-}
-.inputAndResult {
-  height: 50px;
-  min-height: 50px;
-  background-color: #f4d03f;
 }
 </style>
