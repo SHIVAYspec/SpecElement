@@ -17,7 +17,7 @@ import InputAndResult from '@/components/inputAndResult/main.vue'
   border: 1px solid black;
   padding: 3px;
   width: 1008px;
-  max-width: 100%;
+  max-width: calc(100% - 8px);
   overflow: auto;
 }
 .periodicTable {

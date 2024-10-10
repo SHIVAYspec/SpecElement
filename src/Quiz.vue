@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Layout from '@/QuizLayout.vue'
+import QuizLayout from '@/QuizLayout.vue'
 import Config from '@/Config.vue'
 // Reactive adjustment of main div dimension based on viewport dimension
 import { ref } from 'vue'
@@ -30,24 +30,17 @@ const state = useQuizState()
       width: width
     }"
   >
-    <div v-if="state.config.isSet">
-      <Layout />
-    </div>
-    <div v-else>
-      <Config />
-    </div>
+    <QuizLayout v-if="state.config.isSet" />
+    <Config v-else />
   </div>
 </template>
 
 <style>
 .page {
-  height: 100vh;
-  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   background-color: #5dade2;
 }
 </style>
