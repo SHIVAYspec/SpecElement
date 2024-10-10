@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { useQuizState, type Answer, QuizConfigOption } from '@/state/quizState'
-import { ref, type Ref, watchEffect } from 'vue'
+import {
+  useQuizState,
+  type Answer,
+  QuizConfigOption,
+  QuizConfigPrimaryKey
+} from '@/state/quizState'
+import { ref, type Ref, watchEffect, type ComputedRef, watch } from 'vue'
 const state = useQuizState()
 const primaryKey: Ref<string> = ref('')
 const answer: Ref<Answer> = ref({})
@@ -18,6 +23,31 @@ watchEffect(() => {
     answer.value = {}
   }
 })
+// Autofocus
+import { useFocus } from '@vueuse/core'
+import { computed } from 'vue'
+import { onMounted } from 'vue'
+const target = ref()
+const { focused } = useFocus(target)
+onMounted(() => {
+  focused.value = true
+})
+const autoFocusPK: ComputedRef<QuizConfigPrimaryKey> = computed(() => {
+  function isAsked(sub: QuizConfigOption) {
+    return sub == QuizConfigOption.Ask || sub == QuizConfigOption.AskWithHint
+  }
+  if (isAsked(state.config.periodAndGroup)) return QuizConfigPrimaryKey.periodAndGroup
+  if (isAsked(state.config.atomicNo)) return QuizConfigPrimaryKey.atomicNo
+  if (isAsked(state.config.symbol)) return QuizConfigPrimaryKey.symbol
+  if (isAsked(state.config.name)) return QuizConfigPrimaryKey.name
+  return QuizConfigPrimaryKey.periodAndGroup
+})
+function isTarget(sub: QuizConfigPrimaryKey): undefined | Ref<any, any> {
+  return sub == autoFocusPK.value ? target : undefined
+}
+function shouldAutoFocus(sub: QuizConfigPrimaryKey): boolean {
+  return sub == autoFocusPK.value
+}
 </script>
 
 <template>
@@ -53,11 +83,12 @@ watchEffect(() => {
         state.config.atomicNo == QuizConfigOption.AskWithHint ||
         state.config.atomicNo == QuizConfigOption.Ask
       "
+      v-bind:ref="isTarget(QuizConfigPrimaryKey.atomicNo)"
+      v-bind:autofocus="shouldAutoFocus(QuizConfigPrimaryKey.atomicNo)"
       class="text"
       style="width: 136px"
       type="number"
       placeholder="Atomic No."
-      autofocus="true"
       @input="(event) => (answer.atomicNo = (event.target as HTMLInputElement).value)"
     />
     <p v-if="state.config.symbol == QuizConfigOption.Show" class="text">
@@ -68,11 +99,12 @@ watchEffect(() => {
         state.config.symbol == QuizConfigOption.AskWithHint ||
         state.config.symbol == QuizConfigOption.Ask
       "
+      v-bind:ref="isTarget(QuizConfigPrimaryKey.symbol)"
+      v-bind:autofocus="shouldAutoFocus(QuizConfigPrimaryKey.symbol)"
       class="text"
       style="width: 84px"
       type="text"
       placeholder="Symbol"
-      autofocus="true"
       v-model="answer.symbol"
     />
     <p v-if="state.config.name == QuizConfigOption.Show" class="text">
@@ -83,10 +115,11 @@ watchEffect(() => {
         state.config.name == QuizConfigOption.AskWithHint ||
         state.config.name == QuizConfigOption.Ask
       "
+      v-bind:ref="isTarget(QuizConfigPrimaryKey.name)"
+      v-bind:autofocus="shouldAutoFocus(QuizConfigPrimaryKey.name)"
       class="text"
       type="text"
       placeholder="Name"
-      autofocus="true"
       v-model="answer.name"
     />
   </div>

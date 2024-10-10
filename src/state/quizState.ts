@@ -134,27 +134,6 @@ export const useQuizState = defineStore('quizState', {
           symbol: answer.symbol?.toLowerCase(),
           name: answer.name?.toLowerCase()
         }
-        // console.log('tryAnswer: per&gro : ' + ans.periodAndGroup)
-        // console.log('tryAnswer: atomicno. : ' + ans.atomicNo)
-        // console.log('tryAnswer: symbol : ' + ans.symbol)
-        // console.log('tryAnswer: name : ' + ans.name)
-        // console.log('Answer (number) : ' + typeof ans.atomicNo)
-        // console.log(
-        //   'Result: per&gro :' +
-        //     isOk(
-        //       this.config.periodAndGroup,
-        //       ans.periodAndGroup === `${this.currentElement.xpos}-${this.currentElement.ypos}`
-        //     )
-        // )
-        // console.log(
-        //   'Result: atomic:' +
-        //     isOk(this.config.atomicNo, ans.atomicNo === this.currentElement.number.toString())
-        // )
-        // console.log(
-        //   'Result: symbol: ' + isOk(this.config.symbol, ans.symbol === this.currentElement.symbol)
-        // )
-        // console.log(this.currentElement.symbol)
-        // console.log('Result: name:' + isOk(this.config.name, ans.name === this.currentElement.name))
         if (
           isOk(
             this.config.periodAndGroup,
