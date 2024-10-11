@@ -51,8 +51,33 @@ function select() {
 
 <template>
   <div @click="select" v-bind:style="{}" class="emptyBox" :style="{ backgroundColor: boxColor }">
-    <div v-if="element != undefined && showContents">
-      <p class="contents">{{ element.symbol }}</p>
+    <div
+      v-if="element != undefined && showContents"
+      style="
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+      "
+    >
+      <div
+        style="
+          width: 100%;
+          height: 40%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: flex-start;
+        "
+      >
+        <p class="contents">{{ element.symbol }}</p>
+        <p class="contents" style="font-size: x-small; font-weight: lighter">
+          {{ element.number }}
+        </p>
+      </div>
+      <p class="contents" style="font-size: xx-small; font-weight: lighter">{{ element.name }}</p>
     </div>
   </div>
 </template>
@@ -64,8 +89,7 @@ function select() {
   width: 48px;
   height: 48px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 }
 .selectable {
   background-color: yellowgreen;
@@ -82,7 +106,8 @@ function select() {
 }
 .contents {
   margin: 0;
+  padding: 0;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 20px;
 }
 </style>
