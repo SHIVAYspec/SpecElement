@@ -47,6 +47,7 @@ export type QuizState = {
   currentElement?: Element
   selectedElement?: string
   config: QuizConfig
+  gaveupStatus: boolean
 }
 
 export type Answer = {
@@ -90,7 +91,8 @@ export const useQuizState = defineStore('quizState', {
         symbol: QuizConfigOption.Off,
         name: QuizConfigOption.Off,
         category: QuizConfigOption.Off
-      }
+      },
+      gaveupStatus: false
     }
   },
   actions: {
@@ -154,13 +156,14 @@ export const useQuizState = defineStore('quizState', {
       } else {
         return false
       }
-    }
+    },
+    giveup(): void {}
   },
   getters: {
     isOver(state: QuizState): boolean {
-      return state.questionsAnswered.size == 0
+      return state.questionsLeft.size == 0 || state.gaveupStatus
     },
-    getQuestionAnsweredCoordinateMap(state: QuizState): Map<string, Element> {
+    getQuestionsAnsweredCoordinateMap(state: QuizState): Map<string, Element> {
       const newKey = keyType(QuizConfigPrimaryKey.periodAndGroup)
       return new Map(
         Array.from(state.questionsAnswered).map(([key, value], index, arr) => [

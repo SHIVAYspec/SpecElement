@@ -51,7 +51,7 @@ function shouldAutoFocus(sub: QuizConfigPrimaryKey): boolean {
 </script>
 
 <template>
-  <div v-if="state.currentElement != undefined" class="inputCenter">
+  <div v-if="state.currentElement != undefined" class="inputFlex">
     <p v-if="state.config.periodAndGroup == QuizConfigOption.Show" class="text">
       {{ state.currentElement.xpos + ':' + state.currentElement.ypos }}
     </p>
@@ -122,5 +122,12 @@ function shouldAutoFocus(sub: QuizConfigPrimaryKey): boolean {
       placeholder="Name"
       v-model="answer.name"
     />
+    <button
+      @click="(state.currentElement = undefined), (state.selectedElement = undefined)"
+      class="text"
+      style="background-color: red"
+    >
+      Cancel
+    </button>
   </div>
 </template>

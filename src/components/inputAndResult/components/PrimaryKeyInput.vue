@@ -22,12 +22,12 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div v-if="state.currentElement == undefined" class="inputCenter">
+  <div v-if="state.currentElement == undefined" class="inputFlex">
     <p v-if="state.config.primaryKey == QuizConfigPrimaryKey.periodAndGroup" class="text">
       Select an element from above
     </p>
     <input
-      v-if="state.config.primaryKey == QuizConfigPrimaryKey.atomicNo"
+      v-else-if="state.config.primaryKey == QuizConfigPrimaryKey.atomicNo"
       ref="target"
       class="text"
       type="number"
@@ -35,7 +35,7 @@ watchEffect(() => {
       @input="(event) => (primaryKey = (event.target as HTMLInputElement).value)"
     />
     <input
-      v-if="state.config.primaryKey == QuizConfigPrimaryKey.symbol"
+      v-else-if="state.config.primaryKey == QuizConfigPrimaryKey.symbol"
       ref="target"
       class="text"
       type="text"
@@ -43,12 +43,15 @@ watchEffect(() => {
       v-model="primaryKey"
     />
     <input
-      v-if="state.config.primaryKey == QuizConfigPrimaryKey.name"
+      v-else-if="state.config.primaryKey == QuizConfigPrimaryKey.name"
       ref="target"
       class="text"
       type="text"
       placeholder="Name"
       v-model="primaryKey"
     />
+    <button @click="state.gaveupStatus = true" class="text" style="background-color: red">
+      Stop
+    </button>
   </div>
 </template>

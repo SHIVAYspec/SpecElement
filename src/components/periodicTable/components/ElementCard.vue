@@ -12,9 +12,10 @@ const isSelected: ComputedRef<boolean> = computed(() => {
   return state.selectedElement == coordinate
 })
 const answered: ComputedRef<boolean> = computed(() => {
-  return element == undefined ? false : state.getQuestionAnsweredCoordinateMap.has(coordinate)
+  return element == undefined ? false : state.getQuestionsAnsweredCoordinateMap.has(coordinate)
 })
-const selectable: ComputedRef<boolean> = computed(() => {
+const isSelectable: ComputedRef<boolean> = computed(() => {
+  if (state.isOver) return true
   if (answered.value) {
     return false
   } else
@@ -28,24 +29,29 @@ const selectable: ComputedRef<boolean> = computed(() => {
         throw 'Panic'
     }
 })
+const boxColor: ComputedRef<string | undefined> = computed<string | undefined>(() => {
+  // Is selected
+  if (isSelected.value) return 'red'
+  // Is answered
+  if (answered.value) return 'yellow'
+  // Is not answered after giving up
+  if (state.gaveupStatus && element != undefined) return 'orange'
+  // Is selectable
+  if (isSelectable.value) return 'yellowgreen'
+})
+const showContents = computed(() => {
+  return element != undefined && (answered.value || state.isOver)
+})
 function select() {
-  if (selectable.value) {
+  if (isSelectable.value) {
     state.setSelectedElement(coordinate)
   }
 }
 </script>
 
 <template>
-  <div
-    @click="select"
-    class="emptyBox"
-    :class="{
-      selectable: selectable,
-      answered: answered,
-      isSelected: isSelected
-    }"
-  >
-    <div v-if="element != undefined && answered">
+  <div @click="select" v-bind:style="{}" class="emptyBox" :style="{ backgroundColor: boxColor }">
+    <div v-if="element != undefined && showContents">
       <p class="contents">{{ element.symbol }}</p>
     </div>
   </div>
@@ -69,6 +75,9 @@ function select() {
   background-color: yellow;
 }
 .isSelected {
+  background-color: red;
+}
+.showAnswer {
   background-color: red;
 }
 .contents {

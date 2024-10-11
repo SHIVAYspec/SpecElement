@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { useQuizState } from '@/state/quizState'
+import Score from './components/Score.vue'
 import PrimaryKeyInput from './components/PrimaryKeyInput.vue'
 import Answer from './components/Answer.vue'
 const state = useQuizState()
 </script>
 
 <template>
-  <PrimaryKeyInput v-if="state.currentElement == undefined" />
+  <Score v-if="state.isOver" />
+  <PrimaryKeyInput v-else-if="state.currentElement == undefined" />
   <Answer v-else />
 </template>
 
 <style>
-.inputCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+.inputFlex {
   height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
   overflow: auto;
 }
 .text {
@@ -25,6 +27,6 @@ const state = useQuizState()
   border-radius: 5px;
   padding: 5px;
   background-color: yellowgreen;
-  font-size: x-large;
+  white-space: nowrap;
 }
 </style>
