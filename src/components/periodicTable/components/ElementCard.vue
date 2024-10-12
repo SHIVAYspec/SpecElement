@@ -65,49 +65,40 @@ function select() {
       <div
         style="
           width: 100%;
-          height: 40%;
+          height: 75%;
           display: flex;
           flex-direction: row;
           justify-content: space-around;
           align-items: flex-start;
         "
       >
-        <p class="contents">{{ element.symbol }}</p>
+        <p class="contents" style="font-size: large; font-weight: bold">{{ element.symbol }}</p>
         <p class="contents" style="font-size: x-small; font-weight: lighter">
           {{ element.number }}
         </p>
       </div>
-      <p class="contents" style="font-size: xx-small; font-weight: lighter">{{ element.name }}</p>
+      <p
+        class="contents"
+        style="font-size: small; font-weight: lighter; inline-size: 100%; word-break: break-all"
+      >
+        {{ element.name }}
+      </p>
     </div>
   </div>
 </template>
 
 <style>
 .emptyBox {
-  margin: 3px;
+  margin: 1px;
   border: 1px solid black;
+  padding: 2px;
   width: 48px;
   height: 48px;
   display: flex;
   flex-direction: column;
 }
-.selectable {
-  background-color: yellowgreen;
-}
-.answered {
-  box-shadow: 1px 1px;
-  background-color: yellow;
-}
-.isSelected {
-  background-color: red;
-}
-.showAnswer {
-  background-color: red;
-}
 .contents {
   margin: 0;
   padding: 0;
-  font-weight: bold;
-  font-size: 20px;
 }
 </style>
