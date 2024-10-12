@@ -2,6 +2,33 @@ import { defineStore } from 'pinia'
 import _ from 'lodash'
 import elementsArray from '../data/elementsArray.json'
 
+const colors: string[] = [
+  '#E6B0AA',
+  '#F5B7B1',
+  '#C39BD3',
+  '#D2B4DE',
+  '#85C1E9',
+  '#76D7C4',
+  '#73C6B6',
+  '#82E0AA',
+  '#F7DC6F',
+  '#F8C471',
+  '#F0B27A',
+  '#D7DBDD',
+  '#99A3A4',
+  '#D6DBDF',
+  '#ABB2B9'
+]
+export const elementGroupColorCodeMap: Map<string, string> = _.chain(elementsArray)
+  .groupBy((e) => e.category)
+  .keys()
+  .sort()
+  .reduce((agg, current, index, all) => {
+    agg.set(current, colors[index % colors.length])
+    return agg
+  }, new Map<string, string>())
+  .value()
+
 export interface Element {
   period: number
   group: number

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useQuizState, QuizConfigOption } from '@/state/quizState'
+import { useQuizState, QuizConfigOption, elementGroupColorCodeMap } from '@/state/quizState'
 import { computed, type ComputedRef } from 'vue'
 const prop = defineProps<{
   period: number
@@ -33,7 +33,9 @@ const boxColor: ComputedRef<string | undefined> = computed<string | undefined>((
   // Is selected
   if (isSelected.value) return 'red'
   // Is answered
-  if (answered.value) return 'yellow'
+  if (answered.value) {
+    return elementGroupColorCodeMap.get(element?.category ?? '')
+  }
   // Is not answered after giving up
   if (state.gaveupStatus && element != undefined) return 'orange'
   // Is selectable
